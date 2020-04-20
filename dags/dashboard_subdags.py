@@ -80,6 +80,7 @@ def monthly_subdag(parent_dag, child_dag, default_args, schedule_interval, inter
         'aggregate_df_forms',
         'aggregate_cf_forms',
         'aggregate_ccs_cf_forms',
+        'aggregate_thr_forms',
         'aggregate_child_health_thr_forms',
         'aggregate_ccs_record_thr_forms',
         'aggregate_child_health_pnc_forms',
