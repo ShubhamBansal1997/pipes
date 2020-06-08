@@ -161,6 +161,13 @@ def monthly_subdag(parent_dag, child_dag, default_args, schedule_interval, inter
         dag=monthly_dag
     )
 
+    _aggregate_inactive_aww_agg = BashOperator(
+        task_id='_aggregate_inactive_aww_agg',
+        bash_command=run_query_template,
+        params={'query': '_aggregate_inactive_aww_agg'},
+        dag=monthly_dag
+    )
+
     ls_slugs = [
         'agg_ls_awc_mgt_form',
         'agg_ls_vhnd_form',
@@ -202,6 +209,8 @@ def monthly_subdag(parent_dag, child_dag, default_args, schedule_interval, inter
     # as further steps uses awc_location table
     update_aggregate_locations_tables >> agg_child_health_temp
     update_aggregate_locations_tables >> agg_ccs_record
+
+    update_aggregate_locations_tables >> _aggregate_inactive_aww_agg
 
     child_health_monthly >> agg_child_health_temp
     ccs_record_monthly >> agg_ccs_record
