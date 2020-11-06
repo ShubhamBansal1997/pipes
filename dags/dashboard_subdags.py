@@ -1,6 +1,7 @@
 import uuid
 
 from airflow import DAG
+from airflow.executors.local_executor import LocalExecutor
 from airflow.operators import BashOperator, PythonOperator
 from airflow.operators.subdag_operator import SubDagOperator
 
@@ -102,7 +103,8 @@ def monthly_subdag(parent_dag, child_dag, default_args, schedule_interval, inter
             stage_1_slugs
         ),
         task_id='stage_1_tasks',
-        dag=monthly_dag
+        dag=monthly_dag,
+        executor=LocalExecutor()
     )
 
     child_health_monthly = BashOperator(
